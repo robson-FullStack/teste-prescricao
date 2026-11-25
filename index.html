@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#073b68">
+  <meta name="description" content="Sistema de cadastro e controle de prescrição de lentes.">
+  <title>Prescrição de Lentes</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f6;
+      color: #222;
+      padding: 15px;
+    }
+
+    .container {
+      max-width: 750px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 3px 15px #00000015;
+    }
+
+    h1 {
+      text-align: center;
+      color: #073b68;
+      margin-bottom: 8px;
+      font-size: 25px;
+    }
+
+    .subtitulo {
+      text-align: center;
+      color: #666;
+      margin-bottom: 22px;
+      font-size: 14px;
+    }
+
+    h2 {
+      color: #073b68;
+      font-size: 19px;
+      margin: 22px 0 14px;
+      border-bottom: 2px solid #073b68;
+      padding-bottom: 7px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 13px 0 6px;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cbd3dc;
+      border-radius: 8px;
+      font-size: 17px;
+      background: #fff;
+      min-width: 0;
+    }
+
+    input:focus {
+      outline: 2px solid #8bbce5;
+      border-color: #073b68;
+    }
+
+    .olho {
+      background: #f5f8fb;
+      padding: 14px;
+      border-radius: 10px;
+      margin-top: 15px;
+      border: 1px solid #dce4ec;
+    }
+
+    .olho h3 {
+      color: #073b68;
+      margin-bottom: 12px;
+    }
+
+    .controle-titulo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .controle-titulo label {
+      margin: 0;
+    }
+
+    .botoes-grau {
+      display: flex;
+      gap: 7px;
+    }
+
+    .btn-grau {
+      width: 43px;
+      height: 39px;
+      border: none;
+      border-radius: 7px;
+      background: #073b68;
+      color: white;
+      font-size: 23px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-grau:active {
+      background: #0d5c99;
+      transform: scale(.96);
+    }
+
+    .valor-formatado {
+      display: block;
+      color: #073b68;
+      font-weight: bold;
+      font-size: 13px;
+      margin-top: 5px;
+      min-height: 16px;
+    }
+
+    .botoes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    button.acao {
+      border: none;
+      border-radius: 9px;
+      padding: 15px 10px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+    }
+
+    .salvar {
+      background: #087b45;
+    }
+
+    .whatsapp {
+      background: #20b85a;
+    }
+
+    .limpar {
+      background: #c0392b;
+    }
+
+    .historico {
+      background: #073b68;
+    }
+
+    .aviso {
+      background: #fff6df;
+      border: 1px solid #efd28a;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #604b19;
+      margin-top: 20px;
+    }
+
+    .item-historico {
+      background: #f1f5f9;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .item-historico button {
+      border: none;
+      padding: 9px;
+      border-radius: 6px;
+      margin: 8px 5px 0 0;
+      color: white;
+      cursor: pointer;
+    }
+
+    .abrir {
+      background: #073b68;
+    }
+
+    .excluir {
+      background: #c0392b;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 8px;
+      }
+
+      .container {
+        padding: 14px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .botoes {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-grau {
+        width: 46px;
+        height: 43px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1> PRESCRIÇÃO DE LENTES </h1>
+  <p class="subtitulo">Cadastro de exame de vista</p>
+
+  <form id="formulario">
+
+    <h2>Dados do cliente</h2>
+
+    <label for="cliente">Nome do cliente</label>
+    <input type="text" id="cliente" placeholder="Digite o nome completo" required>
+
+    <label for="data">Data do exame</label>
+    <input type="date" id="data" required>
+
+    <label for="condominio">Condomínio onde foi realizado o exame</label>
+    <input type="text" id="condominio" placeholder="Nome do condomínio">
+
+    <h2>Olho Direito (OD)</h2>
+
+    <div class="olho">
+
+      <h3>OD — Olho Direito</h3>
+
+      <div class="controle-titulo">
+        <label for="od_esf">Esférico</label>
+        <div class="botoes-grau">
+          <button type="button" class="btn-grau"
+            onclick="alterarGrau('od_esf', -0.25)">−</button>
+          <button type="button" class="btn-grau"
+            onclick="alterarGrau('od_esf', 0.25)">+</button>
+        </div>
+      </div>
+
+      <input type="number" id="od_esf" step="0.25" value="0.00"
+        inputmode="decimal" oninput="formatarGrau('od_esf')">
+      <small class="valor-formatado" id="formato_od_esf">0.00</small>
+
+      <div class="controle-titulo">
+        <label for="od_cil">Cilíndrico</label>
+        <div class="botoes-grau">
+          <button type="button" class="btn-grau"
+            onclick="alterarGrau('od_cil', -0.25)">−</button>
+          <button type="button" class="btn-grau"
+            onclick="alterarGrau('od_cil', 0.25)">+</button>
+        </div>
+      </div>
+
+      <input type="number" id="od_cil" step="0.25" value="0.00"
+        inputmode="decimal" oninput="formatarGrau('od_cil')">
+      <small class="valor-formatado" id="formato_od_cil">0.00</small>
+
+      <label for="od_eixo">Eixo</label>
+      <input type="number" id="od_eixo" min="0" max="180" step="1"
+        placeholder="0 a 180">
+
+      <label for="od_add">Adição (ADD)</label>
+      <input type="number" id="od_add" step="0.25"
+        inputmode="decimal" placeholder="Ex: 1.50">
+
+      <label for="od_dnp">DNP</label>
+      <input type="number" id="od_dnp" step="0.5"
+        inputmode="decimal" placeholder="DNP do olho direito">
+
+    </div>
+
+    <h2>Olho Esquerdo (OE)</h2>
+
+    <div class="olho">
+
+      <h3>OE — Olho Esquerdo</h3>
+
+      <div class="controle-titulo">
+        <label for="oe_esf">Esférico</label>
+        <div class="botoes-grau">
+          <button type="button" class="btn-grau"
+            onclick="alterarGrau('oe_esf', -0.25)">−</button>
+          <button type="button" class="btn-grau"
+            onclick="alterarGrau('oe_esf', 0.25)">+</button>
+        </div>
+      </div>
+
+      <input type="number" id="oe_esf" step="0.25" value="0.00"
+        inputmode="decimal" oninput="formatarGrau('oe_esf')">
+      <small class="valor-formatado" id="formato_oe_esf">0.00</small>
+
+      <div class="controle-titulo">
+        <label for="oe_cil">Cilíndrico</label>
+        <div class="botoes-grau">
+          <button type="button" class="btn-grau"
+            onclick="alterarGrau('oe_cil', -0.25)">−</button>
+          <button type="button" class="btn-grau"
+            onclick="alterarGrau('oe_cil', 0.25)">+</button>
+        </div>
+      </div>
+
+      <input type="number" id="oe_cil" step="0.25" value="0.00"
+        inputmode="decimal" oninput="formatarGrau('oe_cil')">
+      <small class="valor-formatado" id="formato_oe_cil">0.00</small>
+
+      <label for="oe_eixo">Eixo</label>
+      <input type="number" id="oe_eixo" min="0" max="180" step="1"
+        placeholder="0 a 180">
+
+      <label for="oe_add">Adição (ADD)</label>
+      <input type="number" id="oe_add" step="0.25"
+        inputmode="decimal" placeholder="Ex: 1.50">
+
+      <label for="oe_dnp">DNP</label>
+      <input type="number" id="oe_dnp" step="0.5"
+        inputmode="decimal" placeholder="DNP do olho esquerdo">
+
+    </div>
+
+    <h2>Dados do profissional</h2>
+
+    <label for="optometrista">Nome do optometrista</label>
+    <input type="text" id="optometrista" placeholder="Nome do profissional">
+
+    <label for="registro">Registro profissional</label>
+    <input type="text" id="registro" placeholder="Número do registro">
+
+    <div class="botoes">
+      <button type="button" class="acao salvar" onclick="salvarPrescricao()">
+        💾 SALVAR PRESCRIÇÃO
+      </button>
+
+      <button type="button" class="acao whatsapp" onclick="compartilharWhatsApp()">
+        🟢 COMPARTILHAR WHATSAPP
+      </button>
+
+      <button type="button" class="acao historico" onclick="mostrarHistorico()">
+        📋 HISTÓRICO SALVO
+      </button>
+
+      <button type="reset" class="acao limpar" onclick="setTimeout(atualizarFormatos, 0)">
+        🗑️ LIMPAR FORMULÁRIO
+      </button>
+    </div>
+
+  </form>
+
+  <h2>Histórico de prescrições</h2>
+  <div id="listaHistorico">
+    <p>Nenhuma prescrição carregada.</p>
+  </div>
+
+  <div class="aviso">
+    <strong>Atenção:</strong> este sistema serve para registrar informações
+    do exame. Não substitui uma prescrição formal, validada e assinada pelo
+    profissional responsável. Confira todos os dados antes de compartilhar
+    e proteja as informações pessoais e de saúde dos clientes.
+  </div>
+
+</div>
+
+<script>
+
+  const campos = [
+    "cliente", "data", "condominio",
+    "od_esf", "od_cil", "od_eixo", "od_add", "od_dnp",
+    "oe_esf", "oe_cil", "oe_eixo", "oe_add", "oe_dnp",
+    "optometrista", "registro"
+  ];
+
+  function alterarGrau(id, incremento) {
+    const campo = document.getElementById(id);
+
+    let valor = parseFloat(campo.value);
+
+    if (isNaN(valor)) valor = 0;
+
+    valor = Math.round((valor + incremento) * 100) / 100;
+
+    campo.value = valor.toFixed(2);
+
+    formatarGrau(id);
+  }
+
+  function formatarGrau(id) {
+    const campo = document.getElementById(id);
+    const saida = document.getElementById("formato_" + id);
+
+    if (!campo.value) {
+      saida.textContent = "";
+      return;
+    }
+
+    const valor = Number(campo.value);
+
+    if (!Number.isFinite(valor)) {
+      saida.textContent = "";
+      return;
+    }
+
+    saida.textContent =
+      valor > 0 ? "+" + valor.toFixed(2) : valor.toFixed(2);
+  }
+
+  function atualizarFormatos() {
+    ["od_esf", "od_cil", "oe_esf", "oe_cil"].forEach(formatarGrau);
+  }
+
+  function obterDados() {
+    const dados = {};
+
+    campos.forEach(id => {
+      dados[id] = document.getElementById(id).value;
+    });
+
+    return dados;
+  }
+
+  function preencherFormulario(dados) {
+    campos.forEach(id => {
+      document.getElementById(id).value = dados[id] || "";
+    });
+
+    atualizarFormatos();
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function salvarPrescricao() {
+    const dados = obterDados();
+
+    if (!dados.cliente.trim()) {
+      alert("Informe o nome do cliente.");
+      document.getElementById("cliente").focus();
+      return;
+    }
+
+    if (!dados.data) {
+      alert("Informe a data do exame.");
+      document.getElementById("data").focus();
+      return;
+    }
+
+    const historico = JSON.parse(
+      localStorage.getItem("prescricoesLentes") || "[]"
+    );
+
+    dados.id = Date.now();
+
+    historico.unshift(dados);
+
+    localStorage.setItem(
+      "prescricoesLentes",
+      JSON.stringify(historico)
+    );
+
+    alert("Prescrição salva neste dispositivo!");
+
+    mostrarHistorico();
+  }
+
+  function mostrarHistorico() {
+    const historico = JSON.parse(
+      localStorage.getItem("prescricoesLentes") || "[]"
+    );
+
+    const lista = document.getElementById("listaHistorico");
+
+    lista.innerHTML = "";
+
+    if (historico.length === 0) {
+      lista.innerHTML = "<p>Nenhuma prescrição salva.</p>";
+      return;
+    }
+
+    historico.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "item-historico";
+
+      const titulo = document.createElement("strong");
+      titulo.textContent = item.cliente + " — " + item.data;
+
+      const condominio = document.createElement("p");
+      condominio.textContent =
+        "Condomínio: " + (item.condominio || "Não informado");
+
+      const abrir = document.createElement("button");
+      abrir.className = "abrir";
+      abrir.textContent = "ABRIR";
+      abrir.onclick = () => preencherFormulario(item);
+
+      const excluir = document.createElement("button");
+      excluir.className = "excluir";
+      excluir.textContent = "EXCLUIR";
+      excluir.onclick = () => excluirPrescricao(item.id);
+
+      div.append(titulo, condominio, abrir, excluir);
+      lista.appendChild(div);
+    });
+  }
+
+  function excluirPrescricao(id) {
+    if (!confirm("Deseja excluir esta prescrição?")) return;
+
+    let historico = JSON.parse(
+      localStorage.getItem("prescricoesLentes") || "[]"
+    );
+
+    historico = historico.filter(item => item.id !== id);
+
+    localStorage.setItem(
+      "prescricoesLentes",
+      JSON.stringify(historico)
+    );
+
+    mostrarHistorico();
+  }
+
+  function formatarCampo(id) {
+    const valor = document.getElementById(id).value;
+
+    if (valor === "") return "Não informado";
+
+    const numero = Number(valor);
+
+    if (!Number.isFinite(numero)) return valor;
+
+    if (["od_esf", "od_cil", "oe_esf", "oe_cil"].includes(id)) {
+      return numero > 0
+        ? "+" + numero.toFixed(2)
+        : numero.toFixed(2);
+    }
+
+    return valor;
+  }
+
+  function compartilharWhatsApp() {
+    const d = obterDados();
+
+    if (!d.cliente.trim()) {
+      alert("Informe o nome do cliente antes de compartilhar.");
+      return;
+    }
+
+    const mensagem =
+`*PRESCRIÇÃO DE LENTES*
+
+*DADOS DO CLIENTE*
+Nome: ${d.cliente}
+Data do exame: ${d.data}
+Condomínio: ${d.condominio || "Não informado"}
+
+*OLHO DIREITO (OD)*
+Esférico: ${formatarCampo("od_esf")}
+Cilíndrico: ${formatarCampo("od_cil")}
+Eixo: ${d.od_eixo || "Não informado"}
+ADD: ${d.od_add || "Não informado"}
+DNP: ${d.od_dnp || "Não informado"}
+
+*OLHO ESQUERDO (OE)*
+Esférico: ${formatarCampo("oe_esf")}
+Cilíndrico: ${formatarCampo("oe_cil")}
+Eixo: ${d.oe_eixo || "Não informado"}
+ADD: ${d.oe_add || "Não informado"}
+DNP: ${d.oe_dnp || "Não informado"}
+
+*PROFISSIONAL*
+Optometrista: ${d.optometrista || "Não informado"}
+Registro: ${d.registro || "Não informado"}
+
+Registro de exame — confira os dados antes de utilizar.`;
+
+    const url = "https://wa.me/?text=" + encodeURIComponent(mensagem);
+
+    window.open(url, "_blank");
+  }
+
+  atualizarFormatos();
+  mostrarHistorico();
+
+</script>
+
+</body>
+</html>
